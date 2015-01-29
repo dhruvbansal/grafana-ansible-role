@@ -1,0 +1,15 @@
+# {{ ansible_managed }}
+
+server {
+    listen              443 ssl;
+    server_name         {{ grafana_fqdn }};
+
+    access_log          {{ grafana_log_dir }}/nginx.access.log;
+    error_log           {{ grafana_log_dir }}/nginx.error.log;
+    
+    location / {
+        root     {{ grafana_home_dir }};
+        index    index.html;
+        include  {{ grafana_firewall_rules }};
+    }
+}

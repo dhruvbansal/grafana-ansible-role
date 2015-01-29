@@ -1,0 +1,9 @@
+---
+
+- name: Create nginx configuration
+  template: src=nginx.conf.j2 dest=/etc/nginx/sites-available/grafana.conf owner=root group=root mode=0644
+  notify:
+    - restart nginx
+
+- name: Enable nginx configuration
+  file: state=link path=/etc/nginx/sites-enabled/grafana.conf src=/etc/nginx/sites-available/grafana.conf

@@ -1,0 +1,29 @@
+---
+
+grafana_download_dir: /usr/local/tars
+grafana_version:     1.9.1
+grafana_release_basename: "grafana-{{ grafana_version }}.tar.gz"
+grafana_release_url:      "http://grafanarel.s3.amazonaws.com/{{ grafana_release_basename }}"
+
+grafana_root_dir: /srv/grafana
+grafana_home_dir: "{{ grafana_root_dir }}/current"
+grafana_shared_dir: "{{ grafana_root_dir }}/shared"
+grafana_log_dir: /var/log/grafana
+
+grafana_user: www-data
+grafana_group: www-data
+
+grafana_fqdn:           grafana.example.com
+grafana_firewall_rules: /etc/nginx/firewall.conf
+
+grafana_influxdb:          false
+
+grafana_influxdb_data_url:      "http://my_influxdb_server:8086/db/database_name"
+grafana_influxdb_data_username: grafana
+grafana_influxdb_data_password: password1
+
+grafana_influxdb_self_url:      "http://my_influxdb_server:8086/db/grafana"
+grafana_influxdb_self_username: grafana
+grafana_influxdb_self_password: password2
+
+grafana_use_logstash: true

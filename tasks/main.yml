@@ -1,0 +1,16 @@
+---
+
+- include: install.yml
+  tags:
+    - grafana
+    
+- include: nginx.yml
+  tags:
+    - grafana
+    - nginx
+
+- include: logstash.yml
+  when: grafana_use_logstash
+  tags:
+    - grafana
+    - logstash
