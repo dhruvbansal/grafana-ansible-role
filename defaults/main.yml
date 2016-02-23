@@ -79,11 +79,3 @@ grafana_org_name: "Main Org."
 # Logging
 #
 grafana_logging_mode: file
-
-#
-# Nginx
-#
-grafana_use_nginx: false
-grafana_nginx_log_dir: /var/log/grafana-nginx
-grafana_ssl_params: /etc/nginx/ssl.conf
-grafana_proxy_params: /etc/nginx/proxy_params

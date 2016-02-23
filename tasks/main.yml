@@ -23,9 +23,3 @@
   service: name=grafana-server state={{grafana_state}} enabled={{ grafana_enabled }}
   tags:
     - grafana
-    
-- include: nginx.yml
-  when: grafana_use_nginx
-  tags:
-    - grafana
-    - nginx
