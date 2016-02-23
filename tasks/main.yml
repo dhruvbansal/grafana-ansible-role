@@ -1,16 +1,31 @@
 ---
 
-- include: install.yml
+- name: Download Grafana package
+  when: ansible_os_family == "Debian"
+  get_url: url="{{ grafana_release_url}}" dest="/usr/local/src/{{ grafana_release_basename }}" owner=root group=root mode=0644
+  tags:
+    - grafana
+
+- name: Install Grafana package
+  when: ansible_os_family == "Debian"
+  apt: deb="/usr/local/src/{{ grafana_release_basename }}" state=present
+  tags:
+    - grafana
+
+- name: Create Grafana configuration file
+  template: src=grafana.ini.j2 dest="{{grafana_conf_dir}}/grafana.ini" owner=root group=grafana mode=0640
+  notify:
+    - restart grafana
+  tags:
+    - grafana
+
+- name: Start Grafana service
+  service: name=grafana-server state={{grafana_state}} enabled={{ grafana_enabled }}
   tags:
     - grafana
     
 - include: nginx.yml
+  when: grafana_use_nginx
   tags:
     - grafana
     - nginx
-
-- include: logstash.yml
-  when: grafana_use_logstash
-  tags:
-    - grafana
-    - logstash

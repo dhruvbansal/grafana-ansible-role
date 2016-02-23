@@ -1,15 +1,19 @@
 # {{ ansible_managed }}
 
+upstream grafana {
+  server localhost:{{ grafana_port }};
+}
+
 server {
     listen              443 ssl;
+    include             {{ grafana_ssl_params }};
     server_name         {{ grafana_fqdn }};
 
-    access_log          {{ grafana_log_dir }}/nginx.access.log;
-    error_log           {{ grafana_log_dir }}/nginx.error.log;
+    access_log          {{ grafana_nginx_log_dir }}/nginx.access.log;
+    error_log           {{ grafana_nginx_log_dir }}/nginx.error.log;
     
     location / {
-        root     {{ grafana_home_dir }};
-        index    index.html;
-        include  {{ grafana_firewall_rules }};
+        include {{ grafana_proxy_params }};
+	proxy_pass http://grafana;
     }
 }

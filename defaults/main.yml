@@ -1,29 +1,89 @@
 ---
 
-grafana_download_dir: /usr/local/tars
-grafana_version:     1.9.1
-grafana_release_basename: "grafana-{{ grafana_version }}.tar.gz"
-grafana_release_url:      "http://grafanarel.s3.amazonaws.com/{{ grafana_release_basename }}"
+grafana_version:          2.6.0
+grafana_release_basename: "grafana_{{ grafana_version }}_amd64.deb"
+grafana_release_url:      "https://grafanarel.s3.amazonaws.com/builds/{{ grafana_release_basename }}"
 
-grafana_root_dir: /srv/grafana
-grafana_home_dir: "{{ grafana_root_dir }}/current"
-grafana_shared_dir: "{{ grafana_root_dir }}/shared"
+#
+# Grafana Configuration
+#
+
+grafana_app_mode: production
+grafana_state: started
+grafana_enabled: yes
+
+#
+# Paths
+#
+grafana_conf_dir: /etc/grafana
+grafana_data_dir: /var/lib/grafana
 grafana_log_dir: /var/log/grafana
 
-grafana_user: www-data
-grafana_group: www-data
+#
+# Server
+#
 
+grafana_protocol: http
+grafana_address: ""             # empty means bind to all addresses
+grafana_port: 3000
 grafana_fqdn:           grafana.example.com
-grafana_firewall_rules: /etc/nginx/firewall.conf
+grafana_enforce_domain: false
+grafana_root_url: ~ # default is %(grafana_protocol)s://%(grafana_fqdn)s:%(grafana_port)
+grafana_router_logging: false
+grafana_enable_gzip: false
+grafana_cert_file: ~
+grafana_cert_key: ~
 
-grafana_influxdb:          false
+#
+# Database
+#
+grafana_database_type: sqlite3 # or 'mysql' or 'postgres'
+grafana_database_host: ~ # e.g. - 127.0.0.1:3306
+grafana_database_name: grafana
+grafana_database_user: root
+grafana_database_password: ""
+grafana_database_ssl_mode: ~ # postgres-only: 'disable', 'require' or 'verify-full'
+grafana_database_path: grafana.db # sqlite3-only, resolved relative to grafana_data_dir
 
-grafana_influxdb_data_url:      "http://my_influxdb_server:8086/db/database_name"
-grafana_influxdb_data_username: grafana
-grafana_influxdb_data_password: password1
+#
+# Reporting
+#
+grafana_reporting_enabled: true
 
-grafana_influxdb_self_url:      "http://my_influxdb_server:8086/db/grafana"
-grafana_influxdb_self_username: grafana
-grafana_influxdb_self_password: password2
+#
+# Security
+#
+grafana_admin_user: admin
+grafana_admin_password: admin
+grafana_secret: ~
+grafana_login_remember_days: 7
+grafana_cookie_username: grafana_user
+grafana_cookie_remember_name: grafana_remember
+grafana_disable_gravatar: false
 
-grafana_use_logstash: true
+#
+# Users
+#
+grafana_allow_sign_up: true
+grafana_allow_org_create: true
+grafana_auto_assign_org: true
+grafana_login_hint: "email or username"
+
+#
+# Auth: Anonymous
+#
+grafana_anonymous_enabled: false
+grafana_org_name: "Main Org."
+
+#
+# Logging
+#
+grafana_logging_mode: file
+
+#
+# Nginx
+#
+grafana_use_nginx: false
+grafana_nginx_log_dir: /var/log/grafana-nginx
+grafana_ssl_params: /etc/nginx/ssl.conf
+grafana_proxy_params: /etc/nginx/proxy_params

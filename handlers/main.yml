@@ -3,5 +3,5 @@
 - name: restart nginx
   service: name=nginx state=restarted
 
-- name: restart logstash
-  service: name=logstash state=restarted
+- name: restart grafana
+  service: name=grafana-server state=restarted
